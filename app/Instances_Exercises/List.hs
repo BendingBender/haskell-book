@@ -27,6 +27,14 @@ instance Monad List where
     return = pure
     (>>=) as f = concat' (f <$> as)
 
+instance Foldable List where
+    foldMap _ Nil = mempty
+    foldMap f (Cons a as) = f a <> foldMap f as
+
+instance Traversable List where
+    traverse _ Nil = pure Nil
+    traverse f (Cons a as) = Cons <$> f a <*> traverse f as
+
 instance Arbitrary a => Arbitrary (List a) where
     arbitrary = toList <$> arbitrary
 
@@ -75,3 +83,9 @@ main = do
         l = undefined
     quickBatch $ applicative l
     quickBatch $ monad l
+    let foldableWitness :: List (String, String, String, Int, Int)
+        foldableWitness = undefined
+    quickBatch $ foldable foldableWitness
+    let traversableWitness :: List (Int, Int, [Int])
+        traversableWitness = undefined
+    quickBatch $ traversable traversableWitness

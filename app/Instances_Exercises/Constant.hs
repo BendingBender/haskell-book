@@ -19,6 +19,9 @@ instance Foldable (Constant a) where
     foldMap _ _ = mempty
     foldr _ initial _ = initial
 
+instance Traversable (Constant a) where
+    traverse _ (Constant a) = pure $ Constant a
+
 instance (Arbitrary a) => Arbitrary (Constant a b) where
     arbitrary = do
         a <- arbitrary
@@ -40,3 +43,6 @@ main = do
     let foldableWitness :: Constant Int (String, String, String, Int, Int)
         foldableWitness = undefined
     quickBatch $ foldable foldableWitness
+    let traversableWitness :: Constant Int (Int, Int, [Int])
+        traversableWitness = undefined
+    quickBatch $ traversable traversableWitness

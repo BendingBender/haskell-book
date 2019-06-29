@@ -24,6 +24,9 @@ instance Foldable (Three a b) where
     foldMap f (Three _ _ c) = f c
     foldr f initial (Three _ _ c) = f c initial
 
+instance Traversable (Three a b) where
+    traverse f (Three a b c) = Three a b <$> f c
+
 instance (Arbitrary a, Arbitrary b, Arbitrary c) => Arbitrary (Three a b c) where
     arbitrary = do
         a <- arbitrary
@@ -53,3 +56,6 @@ main = do
     let foldableWitness :: Three Int Int (String, String, String, Int, Int)
         foldableWitness = undefined
     quickBatch $ foldable foldableWitness
+    let traversableWitness :: Three Int Int (Int, Int, [Int])
+        traversableWitness = undefined
+    quickBatch $ traversable traversableWitness

@@ -29,6 +29,9 @@ instance Foldable (Two a) where
     foldMap f (Two _ b) = f b
     foldr f initial (Two _ b) = f b initial
 
+instance Traversable (Two a) where
+    traverse f (Two a b) = Two a <$> f b
+
 instance (Arbitrary a, Arbitrary b) => Arbitrary (Two a b) where
     arbitrary = do
         a <- arbitrary
@@ -59,3 +62,6 @@ main = do
     let foldableWitness :: Two Int (String, String, String, Int, Int)
         foldableWitness = undefined
     quickBatch $ foldable foldableWitness
+    let traversableWitness :: Two Int (Int, Int, [Int])
+        traversableWitness = undefined
+    quickBatch $ traversable traversableWitness

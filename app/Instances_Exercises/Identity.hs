@@ -29,6 +29,9 @@ instance Foldable Identity where
     foldl f z (Identity x) = f z x
     foldMap f (Identity x) = f x
 
+instance Traversable Identity where
+    traverse f (Identity a) = Identity <$> f a
+
 instance Arbitrary a => Arbitrary (Identity a) where
     arbitrary = do
         a <- arbitrary
@@ -47,3 +50,6 @@ main = do
     quickBatch $ functor i
     quickBatch $ applicative i
     quickBatch $ monad i
+    let traversableWitness :: Identity (Int, Int, [Int])
+        traversableWitness = undefined
+    quickBatch $ traversable traversableWitness
