@@ -26,6 +26,10 @@ dependencies:
 - hspec
 - QuickCheck
 - checkers
+- random
+- transformers
+- utility-ht
+- dlist
 
 library:
   source-dirs: src
